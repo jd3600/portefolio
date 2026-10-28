@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Tech | Japheth ROKO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#05070f',
+                            dark: '#0a0e1a',
+                            card: '#101628',
+                            border: '#1e293b',
+                            neonCyan: '#00f3ff',
+                            neonPink: '#ff0055',
+                            neonPurple: '#b026ff',
+                            text: '#cbd5e1'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #05070f;
+            color: #cbd5e1;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Cyberpunk Grid Background */
+        .bg-cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Neon Glow Utility Effects */
+        .neon-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        .neon-glow-pink {
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.7), 0 0 20px rgba(255, 0, 85, 0.4);
+        }
+        
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3), inset 0 0 15px rgba(0, 243, 255, 0.2);
+            border-color: rgba(0, 243, 255, 0.6);
+        }
+
+        .neon-border-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3), inset 0 0 15px rgba(255, 0, 85, 0.2);
+            border-color: rgba(255, 0, 85, 0.6);
+        }
+
+        .neon-box-hover {
+            transition: all 0.3s ease;
+        }
+        .neon-box-hover:hover {
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.3);
+            border-color: #00f3ff;
+            transform: translateY(-3px);
+        }
+
+        /* Glitch Animation */
+        .glitch-title {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-title::before, .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+        .glitch-title:hover::before {
+            left: -2px;
+            text-shadow: 2px 0 #ff0055;
+            animation: glitch-anim-1 0.8s infinite linear alternate-reverse;
+        }
+        .glitch-title:hover::after {
+            left: 2px;
+            text-shadow: -2px 0 #00f3ff;
+            animation: glitch-anim-2 0.8s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 15px, 0); }
+            20% { clip: rect(40px, 9999px, 50px, 0); }
+            40% { clip: rect(10px, 9999px, 80px, 0); }
+            60% { clip: rect(60px, 9999px, 10px, 0); }
+            80% { clip: rect(30px, 9999px, 45px, 0); }
+            100% { clip: rect(70px, 9999px, 30px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(10px, 9999px, 60px, 0); }
+            20% { clip: rect(80px, 9999px, 5px, 0); }
+            40% { clip: rect(30px, 9999px, 40px, 0); }
+            60% { clip: rect(15px, 9999px, 90px, 0); }
+            80% { clip: rect(55px, 9999px, 20px, 0); }
+            100% { clip: rect(25px, 9999px, 75px, 0); }
+        }
+
+        /* Modal Neon Pulse */
+        .modal-neon-pulse {
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f3ff;
+            box-shadow: 0 0 10px #00f3ff;
+        }
+    </style>
+</head>
+<body class="bg-cyber-black text-slate-300 relative min-h-screen">
+    <div class="fixed inset-0 scanlines z-50 opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-cyber-grid z-0 pointer-events-none"></div>
+
+    <!-- Background Orbs -->
+    <div class="fixed top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-cyber-black/80 backdrop-blur-md border-b border-cyan-500/20">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="font-orbitron text-2xl font-black tracking-wider text-white flex items-center gap-2">
+                <span class="text-cyber-neonCyan">&lt;</span>JAPHETH<span class="text-cyber-neonPink">.ROKO/&gt;</span>
+            </a>
+            <div class="hidden md:flex gap-8 font-mono text-sm tracking-wide">
+                <a href="#projects" class="hover:text-cyber-neonCyan transition-colors">// PROJETS</a>
+                <a href="#skills" class="hover:text-cyber-neonCyan transition-colors">// STACK_TECH</a>
+                <a href="#about" class="hover:text-cyber-neonCyan transition-colors">// A_PROPOS</a>
+                <a href="#contact" class="hover:text-cyber-neonCyan transition-colors">// CONTACT</a>
+            </div>
+            <a href="#contact" class="font-mono text-xs px-4 py-2 border border-cyber-neonCyan text-cyber-neonCyan hover:bg-cyber-neonCyan hover:text-black transition-all font-bold tracking-widest neon-border-cyan rounded">
+                INITIALISER_CONTACT
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="relative z-10 max-w-7xl mx-auto px-6 py-24 flex flex-col justify-center min-h-[80vh]">
+        <div class="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 rounded bg-cyan-950/20 text-cyber-neonCyan font-mono text-xs mb-6 w-fit">
+            <span class="w-2 h-2 rounded-full bg-cyber-neonCyan animate-ping"></span>
+            SYSTEME.ONLINE // DISPONIBLE POUR NOUVEAUX PROJETS
+        </div>
+        <h1 class="font-orbitron text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight mb-6">
+            DEVELOPPEUR <br>
+            <span class="glitch-title text-transparent bg-clip-text bg-gradient-to-r from-cyber-neonCyan via-cyan-300 to-cyber-neonPink" data-text="FULL-STACK & CLOUD">FULL-STACK & CLOUD</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl font-rajdhani font-semibold leading-relaxed mb-8">
+            Conception d'architectures résilientes, d'APIs haute performance et de solutions intelligentes basées sur le Cloud et l'Intelligence Artificielle.
+        </p>
+        <div class="flex flex-wrap gap-4 font-mono text-sm">
+            <a href="#projects" class="px-6 py-3 bg-cyber-neonCyan text-black font-bold hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)] flex items-center gap-2 rounded">
+                <i class="fa-solid fa-code-branch"></i> EXPLORER LES PROJETS
+            </a>
+            <a href="#skills" class="px-6 py-3 border border-slate-700 hover:border-cyber-neonPink hover:text-cyber-neonPink transition-all flex items-center gap-2 rounded bg-cyber-dark/50">
+                <i class="fa-solid fa-microchip"></i> STACK TECHNIQUE
+            </a>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="relative z-10 max-w-7xl mx-auto px-6 py-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-slate-800 pb-6">
+            <div>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                    <i class="fa-solid fa-layer-group text-cyber-neonCyan text-2xl"></i> PROJETS_RECURRENTS
+                </h2>
+                <p class="font-mono text-sm text-slate-500">// Sélection de réalisations techniques & prototypes</p>
+            </div>
+            
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2 mt-6 md:mt-0 font-mono text-xs">
+                <button onclick="filterProjects('all')" class="filter-btn active px-4 py-2 border border-cyber-neonCyan bg-cyber-neonCyan/10 text-cyber-neonCyan rounded">TOUS</button>
+                <button onclick="filterProjects('ai')" class="filter-btn px-4 py-2 border border-slate-800 hover:border-slate-600 rounded">AI & CLOUD</button>
+                <button onclick="filterProjects('web')" class="filter-btn px-4 py-2 border border-slate-800 hover:border-slate-600 rounded">WEB APPS</button>
+                <button onclick="filterProjects('finance')" class="filter-btn px-4 py-2 border border-slate-800 hover:border-slate-600 rounded">FINTECH</button>
+            </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            
+            <!-- Project 1: Factur-X Pro -->
+            <div class="project-card finance bg-cyber-card border border-slate-800 rounded-lg overflow-hidden neon-box-hover flex flex-col">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono text-xs text-cyber-neonCyan px-2 py-1 bg-cyan-950/40 border border-cyan-800/40 rounded">FINTECH / ENTERPRISE</span>
+                            <span class="font-mono text-xs text-slate-500"><i class="fa-solid fa-star text-amber-400"></i> EN PRODUCTION</span>
+                        </div>
+                        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">Factur-X Pro</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-rajdhani">
+                            Plateforme d'infaillibilité et de facturation électronique conforme à la norme EN 16931. Génération de factures hybrides (PDF/A-3 + XML sécurisé) avec synchronisation cloud temps réel.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs mb-6">
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Python</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Firebase</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Cloud Functions</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">EN 16931</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-slate-800/60 font-mono text-xs">
+                            <button onclick="openModal('modal-facturx')" class="text-cyber-neonCyan hover:underline flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-eye"></i> DEMO INTERACTIVE
+                            </button>
+                            <a href="#" class="text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-brands fa-github"></i> REPO_CODE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: HackAVP -->
+            <div class="project-card ai web bg-cyber-card border border-slate-800 rounded-lg overflow-hidden neon-box-hover flex flex-col">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono text-xs text-cyber-neonPink px-2 py-1 bg-pink-950/40 border border-pink-800/40 rounded">IA & RH / AUTOMATION</span>
+                            <span class="font-mono text-xs text-slate-500"><i class="fa-solid fa-circle text-emerald-400 text-[10px]"></i> ACTIF</span>
+                        </div>
+                        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">HackAVP (Copilote RH)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-rajdhani">
+                            Assistant intelligent de recrutement RH. Traitement automatisé des candidatures, matching sémantique de profils via LLM et suivi fluide du pipeline de recrutement.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs mb-6">
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">FastAPI</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Gemini 2.5</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Firestore</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Apigee API</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-slate-800/60 font-mono text-xs">
+                            <button onclick="openModal('modal-hackavp')" class="text-cyber-neonCyan hover:underline flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-eye"></i> DEMO INTERACTIVE
+                            </button>
+                            <a href="https://github.com/jd3600/HackAVP" class="text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-brands fa-github"></i> REPO_CODE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: CarbonCompute Protocol -->
+            <div class="project-card ai bg-cyber-card border border-slate-800 rounded-lg overflow-hidden neon-box-hover flex flex-col">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono text-xs text-purple-400 px-2 py-1 bg-purple-950/40 border border-purple-800/40 rounded">GREEN TECH / GCP</span>
+                            <span class="font-mono text-xs text-slate-500"><i class="fa-solid fa-shield-halved text-cyan-400"></i> HACKATHON PROTO</span>
+                        </div>
+                        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">CarbonCompute Protocol</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-rajdhani">
+                            Quantification et audit télémétrique de l'empreinte carbone des calculs GPU/CPU. Ingestion streaming via GCP Pub/Sub et analytique consolidée BigQuery.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs mb-6">
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Python Telemetry</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">GCP Pub/Sub</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">BigQuery</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Grafana</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-slate-800/60 font-mono text-xs">
+                            <button onclick="openModal('modal-carbon')" class="text-cyber-neonCyan hover:underline flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-eye"></i> DEMO INTERACTIVE
+                            </button>
+                            <a href="https://github.com/jd3600/CarbCompute" class="text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-brands fa-github"></i> REPO_CODE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: SONAR-NC -->
+            <div class="project-card ai web bg-cyber-card border border-slate-800 rounded-lg overflow-hidden neon-box-hover flex flex-col">
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono text-xs text-amber-400 px-2 py-1 bg-amber-950/40 border border-amber-800/40 rounded">MEDIA & AI / MONITORING</span>
+                            <span class="font-mono text-xs text-slate-500"><i class="fa-solid fa-tower-broadcast text-amber-400"></i> LIVE SYSTEM</span>
+                        </div>
+                        <h3 class="font-orbitron text-2xl font-bold text-white mb-2">SONAR-NC</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-rajdhani">
+                            Système intelligent de veille et conformité des médias audiovisuels de Nouvelle-Calédonie. Analyse automatisée en temps réel des flux télé & radio avec l'IA Gemini.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs mb-6">
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Gemini AI</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">Python</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">GCP Pub/Sub</span>
+                            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300">FastAPI</span>
+                        </div>
+                        <div class="flex gap-4 pt-4 border-t border-slate-800/60 font-mono text-xs">
+                            <button onclick="openModal('modal-sonar')" class="text-cyber-neonCyan hover:underline flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-eye"></i> DEMO INTERACTIVE
+                            </button>
+                            <a href="https://github.com/jd3600/SonarM_del" class="text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-brands fa-github"></i> REPO_CODE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION STACK TECHNIQUE -->
+    <section id="skills" class="relative z-10 max-w-7xl mx-auto px-6 py-20">
+        <div class="border-b border-slate-800 pb-6 mb-12">
+            <h2 class="font-orbitron text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <i class="fa-solid fa-microchip text-cyber-neonPink text-2xl"></i> STACK_TECHNIQUE
+            </h2>
+            <p class="font-mono text-sm text-slate-500">// Langages, frameworks, architectures cloud et outils maîtrisés</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Card 1: Langages & Core -->
+            <div class="bg-cyber-card border border-slate-800 rounded-lg p-6 neon-box-hover">
+                <div class="w-10 h-10 rounded bg-cyan-950/50 border border-cyber-neonCyan/40 text-cyber-neonCyan flex items-center justify-center text-xl mb-4 font-mono">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="font-orbitron text-lg font-bold text-white mb-3">LANGAGES</h3>
+                <ul class="font-mono text-xs space-y-2 text-slate-400">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonCyan"></i> Python (FastAPI, Flask)</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonCyan"></i> JavaScript / TypeScript</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonCyan"></i> SQL (PostgreSQL, BigQuery)</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonCyan"></i> HTML5 / CSS3 / Tailwind</li>
+                </ul>
+            </div>
+
+            <!-- Card 2: Cloud & Infrastructure -->
+            <div class="bg-cyber-card border border-slate-800 rounded-lg p-6 neon-box-hover">
+                <div class="w-10 h-10 rounded bg-purple-950/50 border border-purple-500/40 text-purple-400 flex items-center justify-center text-xl mb-4 font-mono">
+                    <i class="fa-solid fa-cloud"></i>
+                </div>
+                <h3 class="font-orbitron text-lg font-bold text-white mb-3">CLOUD & INFRA</h3>
+                <ul class="font-mono text-xs space-y-2 text-slate-400">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-purple-400"></i> Google Cloud Platform (GCP)</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-purple-400"></i> Cloud Functions & Pub/Sub</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-purple-400"></i> Docker & Containers</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-purple-400"></i> Apigee API Gateway</li>
+                </ul>
+            </div>
+
+            <!-- Card 3: AI & Frameworks Web -->
+            <div class="bg-cyber-card border border-slate-800 rounded-lg p-6 neon-box-hover">
+                <div class="w-10 h-10 rounded bg-pink-950/50 border border-cyber-neonPink/40 text-cyber-neonPink flex items-center justify-center text-xl mb-4 font-mono">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h3 class="font-orbitron text-lg font-bold text-white mb-3">AI & FRAMEWORKS</h3>
+                <ul class="font-mono text-xs space-y-2 text-slate-400">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonPink"></i> Gemini 2.5 API Integration</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonPink"></i> React.js / Next.js</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonPink"></i> REST & gRPC Services</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-cyber-neonPink"></i> LLM Embeddings & Scoring</li>
+                </ul>
+            </div>
+
+            <!-- Card 4: Databases & Tools -->
+            <div class="bg-cyber-card border border-slate-800 rounded-lg p-6 neon-box-hover">
+                <div class="w-10 h-10 rounded bg-emerald-950/50 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-xl mb-4 font-mono">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <h3 class="font-orbitron text-lg font-bold text-white mb-3">DATA & OUTILS</h3>
+                <ul class="font-mono text-xs space-y-2 text-slate-400">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-emerald-400"></i> Firebase / Firestore</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-emerald-400"></i> BigQuery & Data Warehousing</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-emerald-400"></i> Git & GitHub Actions</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-angle-right text-emerald-400"></i> Norme Factur-X (EN 16931)</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modals Section -->
+    <!-- Modal Factur-X -->
+    <div id="modal-facturx" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-neonCyan rounded-lg max-w-2xl w-full p-6 relative modal-neon-pulse">
+            <button onclick="closeModal('modal-facturx')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-xl">&times;</button>
+            <h3 class="font-orbitron text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice text-cyber-neonCyan"></i> SIMULATEUR FACTUR-X
+            </h3>
+            <div class="bg-cyber-black p-4 rounded border border-slate-800 font-mono text-xs text-emerald-400 mb-6 space-y-2">
+                <p>[SYSTEM] Validation XML EN 16931... OK</p>
+                <p>[SYSTEM] Génération PDF/A-3 avec Métadonnées intégrées...</p>
+                <p class="text-cyan-400">[SUCCESS] Hash Facture: 0x8f2a...9d1c</p>
+            </div>
+            <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                <span class="font-mono text-xs text-slate-500">// Statut: Norme Validée</span>
+                <div class="flex gap-3">
+                    <a href="https://facturexml-nc.web.app" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-cyber-neonCyan text-black font-mono text-xs font-bold rounded hover:bg-cyan-300 transition-all shadow-[0_0_15px_rgba(0,243,255,0.4)] flex items-center gap-1">
+                        VISITER LE SITE WEB <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <button onclick="closeModal('modal-facturx')" class="px-4 py-2 border border-slate-700 text-slate-300 font-mono text-xs rounded hover:bg-slate-800">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal HackAVP -->
+    <div id="modal-hackavp" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-neonPink rounded-lg max-w-2xl w-full p-6 relative modal-neon-pulse">
+            <button onclick="closeModal('modal-hackavp')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-xl">&times;</button>
+            <h3 class="font-orbitron text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-user-check text-cyber-neonPink"></i> COPILOTE RH (MATCHING CV)
+            </h3>
+            <div class="bg-cyber-black p-4 rounded border border-slate-800 font-mono text-xs text-slate-300 mb-6 space-y-2">
+                <p class="text-pink-400">&gt; Analyse du candidat en cours par Gemini 2.5...</p>
+                <p>&gt; Core Skills: Python, FastAPI, Cloud Architecture</p>
+                <p class="text-emerald-400">&gt; Score d'adéquation poste: 94.8%</p>
+            </div>
+            <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                <span class="font-mono text-xs text-slate-500">// Statut: API Apigee Active</span>
+                <div class="flex gap-3">
+                    <a href="https://optrh-iavp.web.app" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-cyber-neonPink text-white font-mono text-xs font-bold rounded hover:bg-pink-600 transition-all shadow-[0_0_15px_rgba(255,0,85,0.4)] flex items-center gap-1">
+                        VISITER LE SITE WEB <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <button onclick="closeModal('modal-hackavp')" class="px-4 py-2 border border-slate-700 text-slate-300 font-mono text-xs rounded hover:bg-slate-800">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal CarbonCompute -->
+    <div id="modal-carbon" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-purple-500 rounded-lg max-w-2xl w-full p-6 relative modal-neon-pulse">
+            <button onclick="closeModal('modal-carbon')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-xl">&times;</button>
+            <h3 class="font-orbitron text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-leaf text-purple-400"></i> TELEMETRIE CARBONE GPU
+            </h3>
+            <div class="bg-cyber-black p-4 rounded border border-slate-800 font-mono text-xs text-purple-300 mb-6 space-y-2">
+                <p>[GPU-0] Nvidia A100 | Power Draw: 240W</p>
+                <p>[GCP Pub/Sub] Envoi métriques streaming vers BigQuery...</p>
+                <p class="text-cyan-400">[CO2e Est.] 0.042 kg/h (Grid Carbon Intensity Factor applied)</p>
+            </div>
+            <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                <span class="font-mono text-xs text-slate-500">// Statut: Pipeline Streaming Prêt</span>
+                <div class="flex gap-3">
+                    <a href="https://example.com/carboncompute" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-purple-600 text-white font-mono text-xs font-bold rounded hover:bg-purple-500 transition-all shadow-[0_0_15px_rgba(176,38,255,0.4)] flex items-center gap-1">
+                        VISITER LE SITE WEB <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <button onclick="closeModal('modal-carbon')" class="px-4 py-2 border border-slate-700 text-slate-300 font-mono text-xs rounded hover:bg-slate-800">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal SONAR-NC -->
+    <div id="modal-sonar" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-amber-500 rounded-lg max-w-2xl w-full p-6 relative modal-neon-pulse">
+            <button onclick="closeModal('modal-sonar')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-xl">&times;</button>
+            <h3 class="font-orbitron text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-satellite-dish text-amber-400"></i> MONITORING AUDIOVISUEL SONAR-NC
+            </h3>
+            <div class="bg-cyber-black p-4 rounded border border-slate-800 font-mono text-xs text-amber-300 mb-6 space-y-2">
+                <p>[STREAM] Ingestion du flux NC la 1ère (Direct TV/Radio)...</p>
+                <p>[GEMINI AI] Transcriptions & Détection thématique en direct...</p>
+                <p class="text-emerald-400">[AUDIT] Conformité des quotas d'expression : 98.4% (Validé)</p>
+            </div>
+            <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                <span class="font-mono text-xs text-slate-500">// Statut: Flux Direct Connecté</span>
+                <div class="flex gap-3">
+                    <a href="https://sonar-tan.vercel.app" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-amber-500 text-black font-mono text-xs font-bold rounded hover:bg-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.4)] flex items-center gap-1">
+                        VISITER LE SITE WEB <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <button onclick="closeModal('modal-sonar')" class="px-4 py-2 border border-slate-700 text-slate-300 font-mono text-xs rounded hover:bg-slate-800">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative z-10 max-w-4xl mx-auto px-6 py-20">
+        <div class="bg-cyber-card border border-slate-800 rounded-xl p-8 neon-border-cyan text-center">
+            <h2 class="font-orbitron text-3xl font-bold text-white mb-2">CANAUX_DE_CONTACT</h2>
+            <p class="font-mono text-xs text-slate-500 mb-8">// Pour toute proposition, opportunité ou collaboration technique.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8 font-mono text-sm">
+                <!-- Direct Email -->
+                <div class="p-6 rounded-lg bg-cyber-black border border-slate-800 flex flex-col items-center justify-center space-y-3 neon-box-hover">
+                    <div class="w-12 h-12 rounded-full bg-cyan-950/60 border border-cyber-neonCyan text-cyber-neonCyan flex items-center justify-center text-xl shadow-[0_0_15px_rgba(0,243,255,0.3)]">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block">EMAIL_DIRECT</span>
+                        <a href="mailto:roko.japheth@gmail.com" class="text-white font-bold hover:text-cyber-neonCyan transition-colors">jroko5@outlook.fr</a>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="p-6 rounded-lg bg-cyber-black border border-slate-800 flex flex-col items-center justify-center space-y-3 neon-box-hover">
+                    <div class="w-12 h-12 rounded-full bg-pink-950/60 border border-cyber-neonPink text-cyber-neonPink flex items-center justify-center text-xl shadow-[0_0_15px_rgba(255,0,85,0.3)]">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block">LOCALISATION</span>
+                        <span class="text-white font-bold">Nouméa, Nouvelle-Calédonie</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direct Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 font-mono text-sm">
+                <a href="mailto:jroko5@outlook.fr" class="px-6 py-3.5 bg-cyber-neonCyan text-black font-bold hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)] flex items-center gap-2 rounded">
+                    <i class="fa-solid fa-paper-plane"></i> ENVOYER UN EMAIL
+                </a>
+                <a href="https://github.com/jd3600" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 border border-slate-700 text-white hover:border-cyber-neonPink hover:text-cyber-neonPink transition-all flex items-center gap-2 rounded bg-cyber-dark/50">
+                    <i class="fa-brands fa-github"></i> PROFIL GITHUB
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-slate-900 py-8 font-mono text-xs text-slate-600 text-center">
+        <p>© 2026 // JAPHETH ROKO // TOUS DROITS RESERVES</p>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('border-cyber-neonCyan', 'bg-cyber-neonCyan/10', 'text-cyber-neonCyan');
+                btn.classList.add('border-slate-800');
+            });
+
+            event.target.classList.add('border-cyber-neonCyan', 'bg-cyber-neonCyan/10', 'text-cyber-neonCyan');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
